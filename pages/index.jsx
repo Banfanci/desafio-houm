@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react'
+
 import { SearchIcon, SettingsIcon } from '@chakra-ui/icons'
 import {
   Box,
@@ -10,10 +12,22 @@ import {
   InputRightElement,
   SimpleGrid,
 } from '@chakra-ui/react'
+import axios from 'axios'
 
 import HeroCard from '../components/HeroCard/HeroCard'
 
 export default function Home() {
+  const [data, setData] = useState({ results: [] })
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios('https://api.punkapi.com/v2/beers?page=1&per_page=12')
+      setData({ results: result.data })
+    }
+
+    fetchData()
+  }, [])
+
   return (
     <>
       <Box boxShadow="md" rounded="md" h="4em">
@@ -44,12 +58,14 @@ export default function Home() {
           m="4"
           p="4"
         >
-          Filtrar
+          Filter
         </Button>
       </Center>
       <Center>
         <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }}>
-          <HeroCard></HeroCard>
+          {data?.results?.map(item => (
+            <HeroCard key={item.id} data={item}></HeroCard>
+          ))}
         </SimpleGrid>
       </Center>
     </>
