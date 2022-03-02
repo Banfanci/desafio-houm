@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
-import { SearchIcon, SettingsIcon } from '@chakra-ui/icons'
+import { SearchIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Button,
   IconButton,
   Center,
   Image,
@@ -14,19 +13,53 @@ import {
 } from '@chakra-ui/react'
 import axios from 'axios'
 
+import FilterModal from '../components/FilterModal/FilterModal'
 import HeroCard from '../components/HeroCard/HeroCard'
 
 export default function Home() {
   const [data, setData] = useState({ results: [] })
+  const [query, setQuery] = useState('')
+
+  const [filters, setFilters] = useState({ beer_name: '' })
+
+  const handleChange = e => {
+    const { name, value } = e.target
+    setFilters(prevState => ({
+      ...prevState,
+      [name]: value,
+    }))
+  }
+
+  const createFilter = () => {
+    let filter = ''
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== '') {
+        filter += `&${key}=${value}`
+      }
+    })
+    setQuery(filter)
+  }
+
+  const handleClick = () => {
+    createFilter()
+  }
+
+  const handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      createFilter()
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios('https://api.punkapi.com/v2/beers?page=1&per_page=12')
+      const result = await axios(
+        `https://api.punkapi.com/v2/beers?page=1&per_page=12${query}`,
+      )
       setData({ results: result.data })
     }
 
     fetchData()
-  }, [])
+  }, [query])
 
   return (
     <>
@@ -38,6 +71,10 @@ export default function Home() {
           <Input
             placeholder="Busca por nombre"
             focusBorderColor="houmOrange.100"
+            name="beer_name"
+            value={filters.name}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
           />
           <InputRightElement w={{ base: '10vw', lg: '4.5vw' }}>
             <IconButton
@@ -46,20 +83,11 @@ export default function Home() {
               size="sm"
               variant="outline"
               colorScheme="houmOrange"
+              onClick={handleClick}
             />
           </InputRightElement>
         </InputGroup>
-        <Button
-          leftIcon={<SettingsIcon />}
-          colorScheme="houmBlue"
-          size="md"
-          borderRadius="30px"
-          w={{ base: '18vw', md: '14vw', lg: '10vw' }}
-          m="4"
-          p="4"
-        >
-          Filter
-        </Button>
+        <FilterModal />
       </Center>
       <Center>
         <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }}>

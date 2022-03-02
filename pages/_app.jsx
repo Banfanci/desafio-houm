@@ -10,6 +10,8 @@ const theme = extendTheme({
   colors: {
     houmOrange: {
       100: 'rgba(255, 69, 43, 0.4)',
+      400: 'rgba(255, 69, 43, 0.7)',
+      500: '#FF452B',
       600: '#FF452B',
     },
     houmBlue: {
