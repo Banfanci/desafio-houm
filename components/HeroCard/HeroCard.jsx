@@ -1,6 +1,8 @@
-import { Avatar, Box, Flex, Spacer, Text } from '@chakra-ui/react'
+import { Image, Box, Flex, Spacer, Text } from '@chakra-ui/react'
 
-export default function HeroCard() {
+export default function HeroCard({ data }) {
+  const { abv, ibu, ebc, name, tagline, brewers_tips, image_url } = data
+
   return (
     <Box
       bg="white"
@@ -12,12 +14,8 @@ export default function HeroCard() {
       borderColor="#E9E9E9"
       borderWidth="0.5px"
     >
-      <Flex mt="6">
-        <Avatar
-          name="Oshigaki Kisame"
-          src="https://bit.ly/dan-abramov"
-          ml="6"
-        />
+      <Flex mt="4">
+        <Image src={image_url} ml="6" fit="contain" h="3.5em" alt="beer" />
         <Spacer />
         <Flex width="10em">
           <Box>
@@ -29,7 +27,7 @@ export default function HeroCard() {
               IBU
             </Text>
             <Text fontSize="lg" fontWeight="semibold">
-              10
+              {ibu}
             </Text>
           </Box>
           <Spacer />
@@ -42,7 +40,7 @@ export default function HeroCard() {
               EBC
             </Text>
             <Text fontSize="lg" fontWeight="semibold">
-              10
+              {ebc}
             </Text>
           </Box>
           <Spacer />
@@ -55,7 +53,7 @@ export default function HeroCard() {
               ABV
             </Text>
             <Text fontSize="lg" color="houmOrange.600" fontWeight="bold">
-              10
+              {abv}
             </Text>
           </Box>
           <Spacer />
@@ -69,7 +67,7 @@ export default function HeroCard() {
           lineHeight="tight"
           color="houmLetters.title"
         >
-          Punk IPA 2007 - 2010
+          {name}
         </Box>
         <Box
           as="span"
@@ -77,7 +75,7 @@ export default function HeroCard() {
           fontSize="sm"
           fontWeight="light"
         >
-          Post Modern Classic. Spiky. Tropical. Hoppy.
+          {tagline}
         </Box>
         <Box
           fontWeight="semibold"
@@ -85,7 +83,7 @@ export default function HeroCard() {
           color="houmLetters.title"
           mt="2"
         >
-          Descripción
+          Brewer Tip
         </Box>
         <Box
           color="houmLetters.subTitle"
@@ -93,10 +91,7 @@ export default function HeroCard() {
           fontWeight="light"
           noOfLines={4}
         >
-          While it may surprise you, this version of Punk IPA isn't dry hopped
-          but still packs a punch! To make the best of the aroma hops make sure
-          they are fully submerged and add them just before knock out for an
-          intense hop hit.
+          {brewers_tips}
         </Box>
       </Box>
     </Box>
