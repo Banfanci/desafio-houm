@@ -67,7 +67,6 @@ function HeroCard({ data }) {
           {name}
         </Box>
         <Box
-          as="span"
           color="houmLetters.subTitle"
           fontSize="sm"
           fontWeight="light"
