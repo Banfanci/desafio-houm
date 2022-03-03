@@ -22,7 +22,7 @@ function Quality({ name, value, important }) {
 
 Quality.propTypes = {
   name: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.number,
   important: PropTypes.bool,
 }
 
@@ -89,12 +89,12 @@ function HeroCard({ data }) {
 }
 
 HeroCard.propTypes = {
-  data: PropTypes.exact({
+  data: PropTypes.shape({
     name: PropTypes.string,
     tagline: PropTypes.string,
-    abv: PropTypes.string,
-    ebc: PropTypes.string,
-    ibu: PropTypes.string,
+    abv: PropTypes.number,
+    ebc: PropTypes.number,
+    ibu: PropTypes.number,
     brewers_tips: PropTypes.string,
     image_url: PropTypes.string,
   }),
