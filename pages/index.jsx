@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
-import { SearchIcon } from '@chakra-ui/icons'
+import { SearchIcon, ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import {
   Box,
   CircularProgress,
+  Button,
   IconButton,
   Center,
   Image,
@@ -32,6 +33,7 @@ const filtersToStrings = {
 export default function Home() {
   const [data, setData] = useState({ results: [] })
   const [query, setQuery] = useState('')
+  const [pageCount, setPageCount] = useState(1)
   const [loading, setLoading] = useState(false)
 
   const initQualitiesState = {
@@ -54,14 +56,14 @@ export default function Home() {
     const fetchData = async () => {
       setLoading(true)
       const result = await axios(
-        `https://api.punkapi.com/v2/beers?page=1&per_page=12${query}`,
+        `https://api.punkapi.com/v2/beers?page=${pageCount}&per_page=12${query}`,
       )
       setLoading(false)
       setData({ results: result.data })
     }
 
     fetchData()
-  }, [query])
+  }, [query, pageCount])
 
   const handleSearchChange = e => {
     const { name, value } = e.target
@@ -104,6 +106,7 @@ export default function Home() {
       }
     })
     setQuery(filter)
+    setPageCount(1)
   }
 
   const handleQualitiesSet = () => {
@@ -114,14 +117,16 @@ export default function Home() {
     createFilter({ ...filters, ...qualities })
   }
 
-  const handleClick = () => {
-    createFilter(filters)
-  }
-
   const handleKeyDown = event => {
     if (event.key === 'Enter') {
       createFilter(filters)
     }
+  }
+
+  const handlePageChange = add => {
+    const val = add ? 1 : -1
+    const newPageCount = pageCount + val
+    newPageCount > 0 ? setPageCount(newPageCount) : setPageCount(1)
   }
 
   return (
@@ -148,7 +153,9 @@ export default function Home() {
                   size="sm"
                   variant="outline"
                   colorScheme="houmOrange"
-                  onClick={handleClick}
+                  onClick={() => {
+                    createFilter(filters)
+                  }}
                 />
               </InputRightElement>
             </InputGroup>
@@ -186,8 +193,39 @@ export default function Home() {
         </Box>
       </Center>
       <Center>
+        <Button
+          colorScheme="houmOrange"
+          leftIcon={<ChevronLeftIcon />}
+          m="2"
+          onClick={() => {
+            handlePageChange(false)
+          }}
+        >
+          Prev
+        </Button>
+        <Input
+          value={pageCount}
+          w="3.5em"
+          textAlign="center"
+          type="number"
+          focusBorderColor="houmOrange.500"
+          borderColor="houmOrange.500"
+          isReadOnly
+        />
+        <Button
+          colorScheme="houmOrange"
+          rightIcon={<ChevronRightIcon />}
+          m="2"
+          onClick={() => {
+            handlePageChange(true)
+          }}
+        >
+          Next
+        </Button>
+      </Center>
+      <Center>
         {loading ? (
-          <CircularProgress isIndeterminate color="houmOrange.500" />
+          <CircularProgress isIndeterminate color="houmOrange.500" mt="6" />
         ) : (
           <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }}>
             {data?.results?.map(item => (
