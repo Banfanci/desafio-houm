@@ -43,7 +43,14 @@ function HeroCard({ data }) {
       borderWidth="0.5px"
     >
       <Flex mt="4">
-        <Image src={imageUrl} ml="6" fit="contain" h="3.5em" alt="beer" />
+        <Image
+          src={imageUrl}
+          ml="6"
+          fit="contain"
+          h="3.5em"
+          alt="beer"
+          fallbackSrc="https://images.punkapi.com/v2/keg.png"
+        />
         <Spacer />
         <Flex width="10em">
           <Quality name="IBU" value={ibu} important={false} />

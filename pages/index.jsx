@@ -15,8 +15,10 @@ import {
   Tag,
   TagLabel,
   TagCloseButton,
+  Text,
 } from '@chakra-ui/react'
 import axios from 'axios'
+import PropTypes from 'prop-types'
 
 import FilterModal from '../components/FilterModal/FilterModal'
 import HeroCard from '../components/HeroCard/HeroCard'
@@ -28,6 +30,47 @@ const filtersToStrings = {
   ibu_lt: 'Max IBU',
   ebc_gt: 'Min EBC',
   ebc_lt: 'Max EBC',
+}
+
+function Paginator({ pageCount, onClick }) {
+  return (
+    <Center>
+      <Button
+        colorScheme="houmOrange"
+        leftIcon={<ChevronLeftIcon />}
+        m="2"
+        onClick={() => {
+          onClick(false)
+        }}
+      >
+        Prev
+      </Button>
+      <Input
+        value={pageCount}
+        w="3.5em"
+        textAlign="center"
+        type="number"
+        focusBorderColor="houmOrange.500"
+        borderColor="houmOrange.500"
+        isReadOnly
+      />
+      <Button
+        colorScheme="houmOrange"
+        rightIcon={<ChevronRightIcon />}
+        m="2"
+        onClick={() => {
+          onClick(true)
+        }}
+      >
+        Next
+      </Button>
+    </Center>
+  )
+}
+
+Paginator.propTypes = {
+  pageCount: PropTypes.number,
+  onClick: PropTypes.func,
 }
 
 function Home() {
@@ -134,7 +177,7 @@ function Home() {
       <Box boxShadow="md" rounded="md" h="4em">
         <Image src="/assets/houmLogo.svg" h="3em" m="5" alt="houmLogo" />
       </Box>
-      <Center margin="2em">
+      <Center margin="1em">
         <Box>
           <Box display="flex" alignItems="baseline">
             <InputGroup size="md" w={{ base: '60vw', lg: '40vw' }}>
@@ -174,6 +217,7 @@ function Home() {
                   variant="solid"
                   bg="houmOrange.50"
                   mr="2"
+                  mb="2"
                 >
                   <TagLabel color="houmOrange.500">
                     {`${filtersToStrings[key]} ${filters[key]}`}
@@ -192,48 +236,29 @@ function Home() {
           </Box>
         </Box>
       </Center>
-      <Center>
-        <Button
-          colorScheme="houmOrange"
-          leftIcon={<ChevronLeftIcon />}
-          m="2"
-          onClick={() => {
-            handlePageChange(false)
-          }}
-        >
-          Prev
-        </Button>
-        <Input
-          value={pageCount}
-          w="3.5em"
-          textAlign="center"
-          type="number"
-          focusBorderColor="houmOrange.500"
-          borderColor="houmOrange.500"
-          isReadOnly
-        />
-        <Button
-          colorScheme="houmOrange"
-          rightIcon={<ChevronRightIcon />}
-          m="2"
-          onClick={() => {
-            handlePageChange(true)
-          }}
-        >
-          Next
-        </Button>
-      </Center>
+      <Paginator pageCount={pageCount} onClick={handlePageChange} />
       <Center>
         {loading ? (
           <CircularProgress isIndeterminate color="houmOrange.500" mt="6" />
-        ) : (
+        ) : data.results.length > 0 ? (
           <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }}>
             {data?.results?.map(item => (
               <HeroCard key={item.id} data={item}></HeroCard>
             ))}
           </SimpleGrid>
+        ) : (
+          <Box align="center" m="3rem">
+            <Image src="/assets/noData.svg" w="25em" alt="noData" />
+            <Text
+              fontSize="2rem"
+              color="houmLetters.title"
+            >{`Didn't match any data`}</Text>
+          </Box>
         )}
       </Center>
+      <Box mb="2em">
+        <Paginator pageCount={pageCount} onClick={handlePageChange} />
+      </Box>
     </>
   )
 }
