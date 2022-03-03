@@ -190,7 +190,7 @@ function Home() {
                 onChange={handleSearchChange}
                 onKeyDown={handleKeyDown}
               />
-              <InputRightElement w={{ base: '15vw', lg: '4.5vw' }}>
+              <InputRightElement w={{ base: '10vw', lg: '4.5vw' }}>
                 <IconButton
                   icon={<SearchIcon />}
                   isRound
@@ -209,29 +209,30 @@ function Home() {
               onSubmit={handleQualitiesSet}
             />
           </Box>
-          <Box w={{ base: '80vw', lg: '50vw' }}>
+          <Box>
             {Object.keys(filters).map(key => {
-              return key.toString() !== 'beer_name' && filters[key] !== '' ? (
-                <Tag
-                  key={key}
-                  borderRadius="full"
-                  variant="solid"
-                  bg="houmOrange.50"
-                  mr="2"
-                  mb="2"
-                >
-                  <TagLabel color="houmOrange.500">
-                    {`${filtersToStrings[key]} ${filters[key]}`}
-                  </TagLabel>
-                  <TagCloseButton
-                    color="houmOrange.500"
-                    onClick={() => {
-                      handleQualityDelete({ name: key, value: '' })
-                    }}
-                  />
-                </Tag>
-              ) : (
-                <></>
+              return (
+                key.toString() !== 'beer_name' &&
+                filters[key] !== '' && (
+                  <Tag
+                    key={key}
+                    borderRadius="full"
+                    variant="solid"
+                    bg="houmOrange.50"
+                    mr="2"
+                    mb="2"
+                  >
+                    <TagLabel color="houmOrange.500">
+                      {`${filtersToStrings[key]} ${filters[key]}`}
+                    </TagLabel>
+                    <TagCloseButton
+                      color="houmOrange.500"
+                      onClick={() => {
+                        handleQualityDelete({ name: key, value: '' })
+                      }}
+                    />
+                  </Tag>
+                )
               )
             })}
           </Box>
