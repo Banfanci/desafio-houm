@@ -1,4 +1,5 @@
 import { Image, Box, Flex, Spacer, Text } from '@chakra-ui/react'
+import PropTypes from 'prop-types'
 
 function Quality({ name, value, important }) {
   return (
@@ -19,7 +20,13 @@ function Quality({ name, value, important }) {
   )
 }
 
-export default function HeroCard({ data }) {
+Quality.propTypes = {
+  name: PropTypes.string,
+  value: PropTypes.number,
+  important: PropTypes.bool,
+}
+
+function HeroCard({ data }) {
   const { abv, ibu, ebc, name, tagline } = data
   const brewersTips = data.brewers_tips
   const imageUrl = data.image_url
@@ -36,7 +43,14 @@ export default function HeroCard({ data }) {
       borderWidth="0.5px"
     >
       <Flex mt="4">
-        <Image src={imageUrl} ml="6" fit="contain" h="3.5em" alt="beer" />
+        <Image
+          src={imageUrl}
+          ml="6"
+          fit="contain"
+          h="3.5em"
+          alt="beer"
+          fallbackSrc="https://images.punkapi.com/v2/keg.png"
+        />
         <Spacer />
         <Flex width="10em">
           <Quality name="IBU" value={ibu} important={false} />
@@ -80,3 +94,17 @@ export default function HeroCard({ data }) {
     </Box>
   )
 }
+
+HeroCard.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string,
+    tagline: PropTypes.string,
+    abv: PropTypes.number,
+    ebc: PropTypes.number,
+    ibu: PropTypes.number,
+    brewers_tips: PropTypes.string,
+    image_url: PropTypes.string,
+  }),
+}
+
+export default HeroCard

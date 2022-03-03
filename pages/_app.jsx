@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import '../styles/globals.css'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 

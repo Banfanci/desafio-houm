@@ -21,6 +21,7 @@ import {
   Spacer,
   useDisclosure,
 } from '@chakra-ui/react'
+import PropTypes from 'prop-types'
 
 function FilterField({ name, description, handleChange, data }) {
   return (
@@ -88,7 +89,17 @@ function FilterField({ name, description, handleChange, data }) {
   )
 }
 
-export default function FilterModal({ onInputChange, data, onSubmit }) {
+FilterField.propTypes = {
+  name: PropTypes.string,
+  description: PropTypes.string,
+  handleChange: PropTypes.func,
+  data: PropTypes.exact({
+    gt: PropTypes.string,
+    lt: PropTypes.string,
+  }),
+}
+
+function FilterModal({ onInputChange, data, onSubmit }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const handleChange = ({ name, value }) => {
@@ -152,3 +163,18 @@ export default function FilterModal({ onInputChange, data, onSubmit }) {
     </>
   )
 }
+
+FilterModal.propTypes = {
+  onInputChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  data: PropTypes.exact({
+    ibu_gt: PropTypes.string,
+    ibu_lt: PropTypes.string,
+    abv_gt: PropTypes.string,
+    abv_lt: PropTypes.string,
+    ebc_gt: PropTypes.string,
+    ebc_lt: PropTypes.string,
+  }),
+}
+
+export default FilterModal
