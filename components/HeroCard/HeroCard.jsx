@@ -63,7 +63,7 @@ function HeroCard({ data }) {
       </Flex>
 
       <Box p="4">
-        <Box fontWeight="semibold" as="h4" color="houmLetters.title">
+        <Box fontWeight="semibold" color="houmLetters.title" isTruncated >
           {name}
         </Box>
         <Box
