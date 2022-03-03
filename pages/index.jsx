@@ -177,19 +177,20 @@ function Home() {
       <Box boxShadow="md" rounded="md" h="4em">
         <Image src="/assets/houmLogo.svg" h="3em" m="5" alt="houmLogo" />
       </Box>
+
       <Center margin="1em">
         <Box>
           <Box display="flex" alignItems="baseline">
             <InputGroup size="md" w={{ base: '60vw', lg: '40vw' }}>
               <Input
-                placeholder="Busca por nombre"
+                placeholder="Search by name"
                 focusBorderColor="houmOrange.100"
                 name="beer_name"
                 value={filters.beer_name}
                 onChange={handleSearchChange}
                 onKeyDown={handleKeyDown}
               />
-              <InputRightElement w={{ base: '10vw', lg: '4.5vw' }}>
+              <InputRightElement w={{ base: '15vw', lg: '4.5vw' }}>
                 <IconButton
                   icon={<SearchIcon />}
                   isRound
@@ -208,7 +209,7 @@ function Home() {
               onSubmit={handleQualitiesSet}
             />
           </Box>
-          <Box>
+          <Box w={{ base: '80vw', lg: '50vw' }}>
             {Object.keys(filters).map(key => {
               return key.toString() !== 'beer_name' && filters[key] !== '' ? (
                 <Tag
@@ -236,6 +237,7 @@ function Home() {
           </Box>
         </Box>
       </Center>
+
       <Paginator pageCount={pageCount} onClick={handlePageChange} />
       <Center>
         {loading ? (

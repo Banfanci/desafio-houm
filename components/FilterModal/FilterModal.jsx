@@ -137,19 +137,19 @@ function FilterModal({ onInputChange, data, onSubmit }) {
               description="International Bitterness Units"
               handleChange={handleChange}
               data={{ gt: data.ibu_gt, lt: data.ibu_lt }}
-            ></FilterField>
+            />
             <FilterField
               name="ebc"
               description="European Brewery Convention"
               handleChange={handleChange}
               data={{ gt: data.ebc_gt, lt: data.ebc_lt }}
-            ></FilterField>
+            />
             <FilterField
               name="abv"
               description="Alcohol By Volume"
               handleChange={handleChange}
               data={{ gt: data.abv_gt, lt: data.abv_lt }}
-            ></FilterField>
+            />
           </ModalBody>
 
           <ModalFooter>

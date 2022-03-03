@@ -9,7 +9,7 @@ function Quality({ name, value, important }) {
       </Text>
       {!important ? (
         <Text fontSize="lg" fontWeight="semibold">
-          {value}
+          {value || '-'}
         </Text>
       ) : (
         <Text fontSize="lg" color="houmOrange.600" fontWeight="bold">
