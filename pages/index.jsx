@@ -30,7 +30,7 @@ const filtersToStrings = {
   ebc_lt: 'Max EBC',
 }
 
-export default function Home() {
+function Home() {
   const [data, setData] = useState({ results: [] })
   const [query, setQuery] = useState('')
   const [pageCount, setPageCount] = useState(1)
@@ -237,3 +237,5 @@ export default function Home() {
     </>
   )
 }
+
+export default Home

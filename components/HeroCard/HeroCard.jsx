@@ -1,4 +1,5 @@
 import { Image, Box, Flex, Spacer, Text } from '@chakra-ui/react'
+import PropTypes from 'prop-types'
 
 function Quality({ name, value, important }) {
   return (
@@ -19,7 +20,13 @@ function Quality({ name, value, important }) {
   )
 }
 
-export default function HeroCard({ data }) {
+Quality.propTypes = {
+  name: PropTypes.string,
+  value: PropTypes.string,
+  important: PropTypes.bool,
+}
+
+function HeroCard({ data }) {
   const { abv, ibu, ebc, name, tagline } = data
   const brewersTips = data.brewers_tips
   const imageUrl = data.image_url
@@ -80,3 +87,17 @@ export default function HeroCard({ data }) {
     </Box>
   )
 }
+
+HeroCard.propTypes = {
+  data: PropTypes.exact({
+    name: PropTypes.string,
+    tagline: PropTypes.string,
+    abv: PropTypes.string,
+    ebc: PropTypes.string,
+    ibu: PropTypes.string,
+    brewers_tips: PropTypes.string,
+    image_url: PropTypes.string,
+  }),
+}
+
+export default HeroCard

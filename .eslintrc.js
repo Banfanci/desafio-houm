@@ -10,8 +10,9 @@ module.exports = {
     },
     ecmaVersion: 12,
   },
-  plugins: ['import', 'prettier'],
+  plugins: ['import', 'prettier', 'react'],
   rules: {
+    'react/prop-types': ['error'],
     'prettier/prettier': [
       'warn',
       {
