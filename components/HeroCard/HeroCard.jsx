@@ -71,6 +71,7 @@ function HeroCard({ data }) {
           color="houmLetters.subTitle"
           fontSize="sm"
           fontWeight="light"
+          isTruncated
         >
           {tagline}
         </Box>
