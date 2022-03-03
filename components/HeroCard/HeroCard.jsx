@@ -1,7 +1,28 @@
 import { Image, Box, Flex, Spacer, Text } from '@chakra-ui/react'
 
+function Quality({ name, value, important }) {
+  return (
+    <Box>
+      <Text fontSize="12px" color="houmLetters.subTitle" fontWeight="light">
+        {name}
+      </Text>
+      {!important ? (
+        <Text fontSize="lg" fontWeight="semibold">
+          {value}
+        </Text>
+      ) : (
+        <Text fontSize="lg" color="houmOrange.600" fontWeight="bold">
+          {value}
+        </Text>
+      )}
+    </Box>
+  )
+}
+
 export default function HeroCard({ data }) {
-  const { abv, ibu, ebc, name, tagline, brewers_tips, image_url } = data
+  const { abv, ibu, ebc, name, tagline } = data
+  const brewersTips = data.brewers_tips
+  const imageUrl = data.image_url
 
   return (
     <Box
@@ -15,58 +36,20 @@ export default function HeroCard({ data }) {
       borderWidth="0.5px"
     >
       <Flex mt="4">
-        <Image src={image_url} ml="6" fit="contain" h="3.5em" alt="beer" />
+        <Image src={imageUrl} ml="6" fit="contain" h="3.5em" alt="beer" />
         <Spacer />
         <Flex width="10em">
-          <Box>
-            <Text
-              fontSize="12px"
-              color="houmLetters.subTitle"
-              fontWeight="light"
-            >
-              IBU
-            </Text>
-            <Text fontSize="lg" fontWeight="semibold">
-              {ibu}
-            </Text>
-          </Box>
+          <Quality name="IBU" value={ibu} important={false} />
           <Spacer />
-          <Box>
-            <Text
-              fontSize="12px"
-              color="houmLetters.subTitle"
-              fontWeight="light"
-            >
-              EBC
-            </Text>
-            <Text fontSize="lg" fontWeight="semibold">
-              {ebc}
-            </Text>
-          </Box>
+          <Quality name="EBC" value={ebc} important={false} />
           <Spacer />
-          <Box>
-            <Text
-              fontSize="12px"
-              color="houmLetters.subTitle"
-              fontWeight="light"
-            >
-              ABV
-            </Text>
-            <Text fontSize="lg" color="houmOrange.600" fontWeight="bold">
-              {abv}
-            </Text>
-          </Box>
+          <Quality name="ABV" value={abv} important={true} />
           <Spacer />
         </Flex>
       </Flex>
 
       <Box p="4">
-        <Box
-          fontWeight="semibold"
-          as="h4"
-          lineHeight="tight"
-          color="houmLetters.title"
-        >
+        <Box fontWeight="semibold" as="h4" color="houmLetters.title">
           {name}
         </Box>
         <Box
@@ -91,7 +74,7 @@ export default function HeroCard({ data }) {
           fontWeight="light"
           noOfLines={4}
         >
-          {brewers_tips}
+          {brewersTips}
         </Box>
       </Box>
     </Box>
