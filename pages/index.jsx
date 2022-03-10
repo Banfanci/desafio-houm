@@ -110,18 +110,18 @@ function Home() {
 
   const handleSearchChange = e => {
     const { name, value } = e.target
+    const formatedValue = value.replaceAll(' ', '_')
     setFilters(prevState => ({
       ...prevState,
-      [name]: value,
+      [name]: formatedValue,
     }))
   }
 
   const handleQualityChange = e => {
     const { name, value } = e
-    const formatedValue = value.replaceAll(' ', '_')
     setQualities(prevState => ({
       ...prevState,
-      [name]: formatedValue,
+      [name]: value,
     }))
   }
 
