@@ -21,9 +21,9 @@ import {
   Spacer,
   useDisclosure,
 } from '@chakra-ui/react'
-import PropTypes from 'prop-types'
+import { usePunk } from '../../context/PunkContext'
 
-function FilterField({ name, description, handleChange, data }) {
+const FilterField = ({ name, description, handleChange, data }) => {
   return (
     <Flex mt="3" mb="6">
       <Box>
@@ -53,7 +53,7 @@ function FilterField({ name, description, handleChange, data }) {
             }}
             name={`${name}_gt`}
             value={data.gt}
-            min="0"
+            min={0}
           >
             <NumberInputField placeholder="Min" />
             <NumberInputStepper>
@@ -75,7 +75,7 @@ function FilterField({ name, description, handleChange, data }) {
             }}
             name={`${name}_lt`}
             value={data.lt}
-            min="0"
+            min={0}
           >
             <NumberInputField placeholder="Max" />
             <NumberInputStepper>
@@ -89,25 +89,12 @@ function FilterField({ name, description, handleChange, data }) {
   )
 }
 
-FilterField.propTypes = {
-  name: PropTypes.string,
-  description: PropTypes.string,
-  handleChange: PropTypes.func,
-  data: PropTypes.exact({
-    gt: PropTypes.string,
-    lt: PropTypes.string,
-  }),
-}
-
-function FilterModal({ onInputChange, data, onSubmit }) {
+const FilterModal = () => {
+  const { qualities, handleQualityChange, handleQualitiesSet } = usePunk()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const handleChange = ({ name, value }) => {
-    onInputChange({ name, value })
-  }
-
   const handleClick = () => {
-    onSubmit()
+    handleQualitiesSet()
     onClose()
   }
 
@@ -135,20 +122,20 @@ function FilterModal({ onInputChange, data, onSubmit }) {
             <FilterField
               name="ibu"
               description="International Bitterness Units"
-              handleChange={handleChange}
-              data={{ gt: data.ibu_gt, lt: data.ibu_lt }}
+              handleChange={handleQualityChange}
+              data={{ gt: qualities.ibu_gt, lt: qualities.ibu_lt }}
             />
             <FilterField
               name="ebc"
               description="European Brewery Convention"
-              handleChange={handleChange}
-              data={{ gt: data.ebc_gt, lt: data.ebc_lt }}
+              handleChange={handleQualityChange}
+              data={{ gt: qualities.ebc_gt, lt: qualities.ebc_lt }}
             />
             <FilterField
               name="abv"
               description="Alcohol By Volume"
-              handleChange={handleChange}
-              data={{ gt: data.abv_gt, lt: data.abv_lt }}
+              handleChange={handleQualityChange}
+              data={{ gt: qualities.abv_gt, lt: qualities.abv_lt }}
             />
           </ModalBody>
 
@@ -162,19 +149,6 @@ function FilterModal({ onInputChange, data, onSubmit }) {
       </Modal>
     </>
   )
-}
-
-FilterModal.propTypes = {
-  onInputChange: PropTypes.func,
-  onSubmit: PropTypes.func,
-  data: PropTypes.exact({
-    ibu_gt: PropTypes.string,
-    ibu_lt: PropTypes.string,
-    abv_gt: PropTypes.string,
-    abv_lt: PropTypes.string,
-    ebc_gt: PropTypes.string,
-    ebc_lt: PropTypes.string,
-  }),
 }
 
 export default FilterModal
